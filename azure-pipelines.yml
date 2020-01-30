@@ -21,6 +21,7 @@ steps:
   displayName: 'Use .NET Core SDK 2.2.103 For Sonar Cloud'
   inputs:
     version: '2.2.103'
+<<<<<<< HEAD
   condition: |
     and
     (
@@ -32,6 +33,12 @@ steps:
 - script: dotnet --list-sdks
   displayName: 'Check dotnet sdks'
 
+=======
+
+- script: dotnet --list-sdks
+  displayName: 'Check dotnet sdks'
+  
+>>>>>>> security-scan
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
@@ -65,6 +72,7 @@ steps:
     extraProperties: |
      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
      sonar.exclusions=**/wwwroot/lib/**/* 
+<<<<<<< HEAD
   condition: |
     and
     (
@@ -72,6 +80,8 @@ steps:
       eq(variables['Build.Reason'], 'PullRequest'),
       eq(variables['System.PullRequest.TargetBranch'], 'master')
     )
+=======
+>>>>>>> security-scan
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
@@ -81,7 +91,11 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
+<<<<<<< HEAD
   displayName: 'Install  ReportGenerator'
+=======
+  displayName: 'Install ReportGenerator'
+>>>>>>> security-scan
   inputs:
     command: custom
     custom: tool
