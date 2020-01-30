@@ -81,7 +81,7 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Install ReportGenerator'
+  displayName: 'Install  ReportGenerator'
   inputs:
     command: custom
     custom: tool
