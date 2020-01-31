@@ -22,11 +22,15 @@ steps:
   inputs:
     version: '2.2.103'
   condition: |
-    and
+    or
     (
-      succeeded(),
-      eq(variables['Build.Reason'], 'PullRequest'),
-      eq(variables['System.PullRequest.TargetBranch'], 'master')
+      and
+      (
+        succeeded(),
+        eq(variables['Build.Reason'], 'PullRequest'),
+        eq(variables['System.PullRequest.TargetBranch'], 'master')
+      ),
+      eq(variables['Build.SourceBranch'], 'master')
     )
 
 - script: dotnet --list-sdks
@@ -66,11 +70,14 @@ steps:
      sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml
      sonar.exclusions=**/wwwroot/lib/**/* 
   condition: |
-    and
+    or
     (
-      succeeded(),
-      eq(variables['Build.Reason'], 'PullRequest'),
-      eq(variables['System.PullRequest.TargetBranch'], 'master'),
+      and
+      (
+        succeeded(),
+        eq(variables['Build.Reason'], 'PullRequest'),
+        eq(variables['System.PullRequest.TargetBranch'], 'master')
+      ),
       eq(variables['Build.SourceBranch'], 'master')
     )
 
@@ -103,22 +110,28 @@ steps:
 - task: SonarCloudAnalyze@1
   displayName: 'Run SonarCloud code analysis'
   condition: |
-    and
+    or
     (
-      succeeded(),
-      eq(variables['Build.Reason'], 'PullRequest'),
-      eq(variables['System.PullRequest.TargetBranch'], 'master'),
+      and
+      (
+        succeeded(),
+        eq(variables['Build.Reason'], 'PullRequest'),
+        eq(variables['System.PullRequest.TargetBranch'], 'master')
+      ),
       eq(variables['Build.SourceBranch'], 'master')
     )
 
 - task: SonarCloudPublish@1
   displayName: 'Publish SonarCloud quality gate results' 
   condition: |
-    and
+    or
     (
-      succeeded(),
-      eq(variables['Build.Reason'], 'PullRequest'),
-      eq(variables['System.PullRequest.TargetBranch'], 'master'),
+      and
+      (
+        succeeded(),
+        eq(variables['Build.Reason'], 'PullRequest'),
+        eq(variables['System.PullRequest.TargetBranch'], 'master')
+      ),
       eq(variables['Build.SourceBranch'], 'master')
     )
 
